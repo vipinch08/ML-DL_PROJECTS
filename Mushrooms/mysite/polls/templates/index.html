@@ -1,0 +1,354 @@
+<html>
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>Car Selling Price Prediction</title>
+<style>
+
+body{
+  background-color: #ee5522;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='169' height='169' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='100' y1='33' x2='100' y2='-3'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='100' y1='135' x2='100' y2='97'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23ca481d' fill-opacity='0.81'%3E%3Crect x='100' width='100' height='100'/%3E%3Crect y='100' width='100' height='100'/%3E%3C/g%3E%3Cg fill-opacity='0.81'%3E%3Cpolygon fill='url(%23a)' points='100 30 0 0 200 0'/%3E%3Cpolygon fill='url(%23b)' points='100 100 0 130 0 100 200 100 200 130'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+{% comment %}
+body{
+    background-color: #ee2d14;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2000 1500'%3E%3Cdefs%3E%3CradialGradient id='a' gradientUnits='objectBoundingBox'%3E%3Cstop offset='0' stop-color='%23ffba2c'/%3E%3Cstop offset='1' stop-color='%23ee2d14'/%3E%3C/radialGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='0' y1='750' x2='1550' y2='750'%3E%3Cstop offset='0' stop-color='%23f77420'/%3E%3Cstop offset='1' stop-color='%23ee2d14'/%3E%3C/linearGradient%3E%3Cpath id='s' fill='url(%23b)' d='M1549.2 51.6c-5.4 99.1-20.2 197.6-44.2 293.6c-24.1 96-57.4 189.4-99.3 278.6c-41.9 89.2-92.4 174.1-150.3 253.3c-58 79.2-123.4 152.6-195.1 219c-71.7 66.4-149.6 125.8-232.2 177.2c-82.7 51.4-170.1 94.7-260.7 129.1c-90.6 34.4-184.4 60-279.5 76.3C192.6 1495 96.1 1502 0 1500c96.1-2.1 191.8-13.3 285.4-33.6c93.6-20.2 185-49.5 272.5-87.2c87.6-37.7 171.3-83.8 249.6-137.3c78.4-53.5 151.5-114.5 217.9-181.7c66.5-67.2 126.4-140.7 178.6-218.9c52.3-78.3 96.9-161.4 133-247.9c36.1-86.5 63.8-176.2 82.6-267.6c18.8-91.4 28.6-184.4 29.6-277.4c0.3-27.6 23.2-48.7 50.8-48.4s49.5 21.8 49.2 49.5c0 0.7 0 1.3-0.1 2L1549.2 51.6z'/%3E%3Cg id='g'%3E%3Cuse href='%23s' transform='scale(0.12) rotate(60)'/%3E%3Cuse href='%23s' transform='scale(0.2) rotate(10)'/%3E%3Cuse href='%23s' transform='scale(0.25) rotate(40)'/%3E%3Cuse href='%23s' transform='scale(0.3) rotate(-20)'/%3E%3Cuse href='%23s' transform='scale(0.4) rotate(-30)'/%3E%3Cuse href='%23s' transform='scale(0.5) rotate(20)'/%3E%3Cuse href='%23s' transform='scale(0.6) rotate(60)'/%3E%3Cuse href='%23s' transform='scale(0.7) rotate(10)'/%3E%3Cuse href='%23s' transform='scale(0.835) rotate(-40)'/%3E%3Cuse href='%23s' transform='scale(0.9) rotate(40)'/%3E%3Cuse href='%23s' transform='scale(1.05) rotate(25)'/%3E%3Cuse href='%23s' transform='scale(1.2) rotate(8)'/%3E%3Cuse href='%23s' transform='scale(1.333) rotate(-60)'/%3E%3Cuse href='%23s' transform='scale(1.45) rotate(-30)'/%3E%3Cuse href='%23s' transform='scale(1.6) rotate(10)'/%3E%3C/g%3E%3C/defs%3E%3Cg transform='translate(200 0)'%3E%3Cg transform='translate(0 120)'%3E%3Ccircle fill='url(%23a)' r='3000'/%3E%3Cg opacity='0.5'%3E%3Ccircle fill='url(%23a)' r='2000'/%3E%3Ccircle fill='url(%23a)' r='1800'/%3E%3Ccircle fill='url(%23a)' r='1700'/%3E%3Ccircle fill='url(%23a)' r='1651'/%3E%3Ccircle fill='url(%23a)' r='1450'/%3E%3Ccircle fill='url(%23a)' r='1250'/%3E%3Ccircle fill='url(%23a)' r='1175'/%3E%3Ccircle fill='url(%23a)' r='900'/%3E%3Ccircle fill='url(%23a)' r='750'/%3E%3Ccircle fill='url(%23a)' r='500'/%3E%3Ccircle fill='url(%23a)' r='380'/%3E%3Ccircle fill='url(%23a)' r='250'/%3E%3C/g%3E%3Cg transform='rotate(-118.8 0 0)'%3E%3Cuse href='%23g' transform='rotate(10)'/%3E%3Cuse href='%23g' transform='rotate(120)'/%3E%3Cuse href='%23g' transform='rotate(240)'/%3E%3C/g%3E%3Ccircle fill-opacity='0' fill='url(%23a)' r='3000'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+}
+{% endcomment %}
+
+div.search {
+  width: 100%;
+  height: 36px;
+  position: relative;
+  display: flex;
+}
+
+input.searchTerm {
+  width: 100%;
+  border: 3px solid #00B4CC;
+  border-right: none;
+  padding: 5px;
+  height: 36px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+  font-size: 20px;
+}
+
+select.searchTerm {
+  width: 100%;
+  border: 3px solid #00B4CC;
+  border-right: none;
+  padding: 5px;
+  height: 36px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+  font-size: 20px;
+}
+
+input.searchTerm:focus{
+  color: #00B4CC;
+}
+
+button.searchButton {
+  width: 80px;
+  height: 36px;
+  border: 1px solid #00B4CC;
+  background: #00B4CC;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+div.wrap{
+  width: 60%;
+  position: relative;
+  top: 20%;
+  left: 20%;
+}
+
+body.bg-image {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 300px;
+    max-height: 700px;
+}
+
+.bg-image[style^="background-image:"][style$=".svg)"] {
+  background-size: 400px 300px;
+  background-image: url(https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg)
+}
+</style>
+</head>
+<body> {% comment %} https://www.svgbackgrounds.com/ -> this site is good for bg images {% endcomment %}
+<div class="wrap">
+  <form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+   <br>
+      <div class="search">
+      <select name="capShape" class="searchTerm"> {% comment %} cap-shape ['b' 'c' 'f' 'k' 's' 'x'] {% endcomment %}
+        <option selected>Cap Shape of the Mushroom</option>
+        <option value="0">Bell</option>
+        <option value="1">Conical</option>
+        <option value="2">Flat</option>
+        <option value="3">Knobbed</option>
+        <option value="4">Sunken</option>
+        <option value="5">Convex</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="CapSurface" class="searchTerm"> {% comment %} cap-surface ['f' 'g' 's' 'y'] {% endcomment %}
+        <option selected>Cap Surface of the Mushroom</option>
+        <option value="0">Fibrous</option>
+        <option value="1">Grooves</option>
+        <option value="2">Smooth</option>
+        <option value="3">Scaly</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="capColor" class="searchTerm"> {% comment %} cap-color ['b' 'c' 'e' 'g' 'n' 'p' 'r' 'u' 'w' 'y'] {% endcomment %}
+        <option selected>Cap Color of the Mushroom</option>
+        <option value="0">Buff</option>
+        <option value="1">Cinnamon</option>
+        <option value="2">Red</option>
+        <option value="3">Grey</option>
+        <option value="4">Brown</option>
+        <option value="5">Pink</option>
+        <option value="6">Green</option>
+        <option value="7">Purple</option>
+        <option value="8">White</option>
+        <option value="9">Yellow</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="bruises" class="searchTerm"> {% comment %} bruises ['f' 't'] {% endcomment %}
+        <option selected>Bruises on the Mushroom</option>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="odor" class="searchTerm"> {% comment %} odor ['a' 'c' 'f' 'l' 'm' 'n' 'p' 's' 'y'] {% endcomment %}
+        <option selected>Odor of the Mushroom</option>
+        <option value="0">Almond</option>
+        <option value="1">Creosote</option>
+        <option value="2">Foul</option>
+        <option value="3">Anise</option>
+        <option value="4">Musty</option>
+        <option value="5">None</option>
+        <option value="6">Pungent</option>
+        <option value="7">Spicy</option>
+        <option value="8">Fishy</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="gillAttach" class="searchTerm"> {% comment %} gill-attachment ['a' 'f'] {% endcomment %}
+        <option selected>Is gill attached to the Mushroom</option>
+        <option value="0">Attached</option>
+        <option value="1">Free</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="gillSpace" class="searchTerm"> {% comment %} gill-spacing ['c' 'w'] {% endcomment %}
+        <option selected>Gill spacing in the Mushroom</option>
+        <option value="0">Closed</option>
+        <option value="1">Crowded</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="gillSize" class="searchTerm"> {% comment %} gill-size ['b' 'n'] {% endcomment %}
+        <option selected>Gill size of the Mushroom</option>
+        <option value="0">Broad</option>
+        <option value="1">Narrow</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="gillColor" class="searchTerm"> {% comment %} gill-color ['b' 'e' 'g' 'h' 'k' 'n' 'o' 'p' 'r' 'u' 'w' 'y'] {% endcomment %}
+        <option selected>Gill size of the Mushroom</option>
+        <option value="0">Buff</option>
+        <option value="1">Red</option>
+        <option value="2">Gray</option>
+        <option value="3">Chocolate</option>
+        <option value="4">Black</option>
+        <option value="5">Brown</option>
+        <option value="6">Orange</option>
+        <option value="7">Pink</option>
+        <option value="8">Green</option>
+        <option value="9">Purple</option>
+        <option value="10">White</option>
+        <option value="11">Purple</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="stalkShape" class="searchTerm"> {% comment %} stalk-shape ['e' 't'] {% endcomment %}
+        <option selected>Stalk Shape of the Mushroom</option>
+        <option value="0">Enlarging</option>
+        <option value="1">Tapering</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="stalkRoot" class="searchTerm"> {% comment %} stalk-root ['?' 'b' 'c' 'e' 'r'] {% endcomment %}
+        <option selected>How is the stack of the Mushroom</option>
+        <option value="0">Missing</option>
+        <option value="1">Bulbous</option>
+        <option value="2">Club</option>
+        <option value="3">Equal</option>
+        <option value="4">Rooted</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="stalkARing" class="searchTerm"> {% comment %} stalk-surface-above-ring ['f' 'k' 's' 'y'] {% endcomment %}
+        <option selected>Stalk surface above ring of the Mushroom</option>
+        <option value="0">Fibrous</option>
+        <option value="1">Silky</option>
+        <option value="2">Smooth</option>
+        <option value="3">Scaly</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="stalkBRing" class="searchTerm"> {% comment %} stalk-surface-below-ring ['f' 'k' 's' 'y'] {% endcomment %}
+        <option selected>Stalk surface below ring of the Mushroom</option>
+        <option value="0">Fibrous</option>
+        <option value="1">Silky</option>
+        <option value="2">Smooth</option>
+        <option value="3">Scaly</option>
+    </select>
+   </div>
+  <br>
+      <div class="search">
+      <select name="stalkCARing" class="searchTerm"> {% comment %} stalk-color-above-ring ['b' 'c' 'e' 'g' 'n' 'o' 'p' 'w' 'y'] {% endcomment %}
+        <option selected>Stalk color above ring of the Mushroom</option>
+        <option value="0">Buff</option>
+        <option value="1">Cinnamon</option>
+        <option value="2">Red</option>
+        <option value="3">Grey</option>
+        <option value="4">Brown</option>
+        <option value="5">Orange</option>
+        <option value="6">Pink</option>
+        <option value="7">White</option>
+        <option value="8">Yellow</option>
+    </select>
+   </div>
+    <br>
+      <div class="search">
+      <select name="stalkCBRing" class="searchTerm"> {% comment %} stalk-color-below-ring ['b' 'c' 'e' 'g' 'n' 'o' 'p' 'w' 'y'] {% endcomment %}
+        <option selected>Stalk color below ring of the Mushroom</option>
+        <option value="0">Buff</option>
+        <option value="1">Cinnamon</option>
+        <option value="2">Red</option>
+        <option value="3">Grey</option>
+        <option value="4">Brown</option>
+        <option value="5">Orange</option>
+        <option value="6">Pink</option>
+        <option value="7">White</option>
+        <option value="8">Yellow</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="veilType" class="searchTerm"> {% comment %} veil-type ['p'] {% endcomment %}
+        <option selected>Veil type of the Mushroom</option>
+        <option value="0">Partial</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="veilColor" class="searchTerm"> {% comment %} veil-color ['n' 'o' 'w' 'y'] {% endcomment %}
+        <option selected>Number of  rings on the Mushroom</option>
+        <option value="0">Brown</option>
+        <option value="1">Orange</option>
+        <option value="2">White</option>
+        <option value="2">Yellow</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="ringNumber" class="searchTerm"> {% comment %} ring-number ['n' 'o' 't'] {% endcomment %}
+        <option selected>Number of  rings on the Mushroom</option>
+        <option value="0">None</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="ringType" class="searchTerm"> {% comment %} ring-type ['e' 'f' 'l' 'n' 'p'] {% endcomment %}
+        <option selected>Type of  ring on the Mushroom</option>
+        <option value="0">evanescent</option>
+        <option value="1">Flaring</option>
+        <option value="2">Large</option>
+        <option value="3">None</option>
+        <option value="4">Pendant</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="sporePrintColor" class="searchTerm"> {% comment %} spore-print-color ['b' 'h' 'k' 'n' 'o' 'r' 'u' 'w' 'y'] {% endcomment %}
+        <option selected>Spore print color of the Mushroom</option>
+        <option value="0">Buff</option>
+        <option value="1">Chocolate</option>
+        <option value="2">Black</option>
+        <option value="3">Brown</option>
+        <option value="4">Orange</option>
+        <option value="5">Green</option>
+        <option value="6">Purple</option>
+        <option value="7">White</option>
+        <option value="8">Yellow</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="pop" class="searchTerm"> {% comment %} population ['a' 'c' 'n' 's' 'v' 'y'] {% endcomment %}
+        <option selected>Population of the Mushroom Species</option>
+        <option value="0">Abundant</option>
+        <option value="1">Clustered</option>
+        <option value="2">Numerous</option>
+        <option value="3">Scattered</option>
+        <option value="4">Several</option>
+        <option value="5">solitary</option>
+    </select>
+   </div>
+   <br>
+      <div class="search">
+      <select name="hab" class="searchTerm"> {% comment %} habitat ['d' 'g' 'l' 'm' 'p' 'u' 'w'] {% endcomment %}
+        <option selected>Habitat of the Mushroom Species</option>
+        <option value="0">Woods</option>
+        <option value="1">Grasses</option>
+        <option value="2">Leaves</option>
+        <option value="3">Meadows</option>
+        <option value="4">Paths</option>
+        <option value="5">Urban</option>
+        <option value="6">Waste</option>
+    </select>
+   </div>
+
+      <button type="submit" name="pred_button" class="searchButton"> Submit
+        <i class="fa fa-search"></i>
+     </button>
+   </form>
+   {% if response %}
+      <h2>The Mushroom is: {{ response }}</h2>
+    {% endif %}
+</div>
+
+</body>
+</html>
